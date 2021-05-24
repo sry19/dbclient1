@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiResponse;
 import io.swagger.client.api.TextbodyApi;
@@ -44,32 +45,31 @@ public class Consumer implements Runnable {
         }
         process(line);
       }
-    } catch (InterruptedException | ApiException e) {
+    } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      System.out.println("Thread is interrupted");
     }
   }
 
-  private void process(String line) throws ApiException {
+  private void process(String line) {
     // constructs request body
     TextLine textLine = new TextLine();
     textLine.setMessage(line);
 
-    // send requests to server
-    ApiResponse response = textbodyApi.analyzeNewLineWithHttpInfo(textLine, "wordcount");
+    try {
+      // send requests to server
+      ApiResponse response = textbodyApi.analyzeNewLineWithHttpInfo(textLine, "wordcount");
 
-    // if status code is 200, print result value
-    if (response.getStatusCode() == 200) {
+      // if status code is 200, print result value
       this.syncCountSuccess.inc();
       ResultVal resultVal = (ResultVal) response.getData();
-      System.out.println(resultVal.getMessage());
-    } else {
+      // System.out.println(resultVal.getMessage());
+    } catch (ApiException e) {
       // if status code is 4xx or 5xx, print error message
       this.syncCountFailure.inc();
-      ErrMessage errMessage = (ErrMessage) response.getData();
-      System.err.println(errMessage.getMessage());
+      ErrMessage errMessage = new Gson().fromJson(e.getResponseBody(), ErrMessage.class);
+      // System.err.println(errMessage.getMessage());
+      // System.out.println(e.getCode());
     }
-
 
   }
 
