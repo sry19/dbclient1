@@ -36,7 +36,7 @@ public class TextbodyApiExample {
 
       // create an api instance to call the server
       TextbodyApi apiInstance = new TextbodyApi();
-      apiInstance.getApiClient().setBasePath("http://127.0.0.1:8080/6650lab2_war_exploded");
+      apiInstance.getApiClient().setBasePath("http://ec2-54-205-211-164.compute-1.amazonaws.com:8080/6650Assignment1Server_war");
 
       // create and store all the consumers
       LinkedList<Thread> threadList = new LinkedList<>();
