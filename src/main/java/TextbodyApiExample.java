@@ -28,7 +28,7 @@ public class TextbodyApiExample {
       // create a file reader
       FileReader fileReader = new FileReader(file);
       // create a blocking queue to store texts
-      BlockingQueue<String> blockingDeque = new LinkedBlockingQueue<>(5);
+      BlockingQueue<String> blockingDeque = new LinkedBlockingQueue<>();
 
       // create 2 counters to count the number of successful/unsuccessful requests
       Count syncCountSuccess = new Count(0);
@@ -36,7 +36,7 @@ public class TextbodyApiExample {
 
       // create an api instance to call the server
       TextbodyApi apiInstance = new TextbodyApi();
-      apiInstance.getApiClient().setBasePath("http://ec2-54-205-211-164.compute-1.amazonaws.com:8080/6650Assignment1Server_war");
+      apiInstance.getApiClient().setBasePath("http://ec2-34-224-8-164.compute-1.amazonaws.com:8080/6650Assignment1Server_war");
 
       // create and store all the consumers
       LinkedList<Thread> threadList = new LinkedList<>();
@@ -69,7 +69,7 @@ public class TextbodyApiExample {
       System.out.println("Total run time(wall time): " + totalTime);
       System.out.println("Successful requests: " + syncCountSuccess.getCount());
       System.out.println("Unsuccessful requests: " + syncCountFailure.getCount());
-      System.out.println("Throughput(requests per second): " + throughput);
+      System.out.println("Throughput(requests per second): " + throughput*1000);
 
     } catch (NumberFormatException e) {
       System.out.println("Please provide valid arguments");
